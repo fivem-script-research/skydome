@@ -6,7 +6,8 @@ description 'GTAV Skydome Replacement'
 version '1.0.0'
 
 files {
-    'stream/*.png'
+    'stream/*.png',
+	'images/*.png'
 }
 
 client_script 'client.lua'

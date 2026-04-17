@@ -3,28 +3,29 @@ CreateThread(function()
         Wait(1000)
     end
 
-    Wait(5000)
+    --Wait(5000)
 
     ApplySkyTextures()
 
-    while true do
-        Wait(30000)
-        ApplySkyTextures()
-    end
+    --while true do
+    --    Wait(30000)
+    --    ApplySkyTextures()
+    --end
 end)
 
 function ApplySkyTextures()
-    local txd = CreateRuntimeTxd("skydome_runtime")
+    local id = PlayerId()
 
-    -- STARFIELD
-    local duiStars = CreateDui("nui://skydome/stream/starfield.png", 1024, 1024)
-    local handleStars = GetDuiHandle(duiStars)
-    CreateRuntimeTextureFromDuiHandle(txd, "starfield", handleStars)
-    AddReplaceTexture("skydome", "starfield", "skydome_runtime", "starfield")
+    while not NetworkIsPlayerActive(id) do
+        Citizen.Wait(0)
+    end
 
-    -- MOON
-    local duiMoon = CreateDui("nui://skydome/stream/moon-new.png", 512, 512)
-    local handleMoon = GetDuiHandle(duiMoon)
-    CreateRuntimeTextureFromDuiHandle(txd, "moon-new", handleMoon)
-    AddReplaceTexture("skydome", "moon", "skydome_runtime", "moon-new")
+    RequestStreamedTextureDict("skydome_textures")
+    while not HasStreamedTextureDictLoaded("skydome_textures") do
+        Citizen.Wait(0)
+    end
+
+    AddReplaceTexture("platform:/textures/skydome", "moon-new", "skydome_textures", "moon-new")
+    AddReplaceTexture("platform:/textures/skydome", "starfield", "skydome_textures", "starfield")
+    SetStreamedTextureDictAsNoLongerNeeded("skydome_textures")
 end
