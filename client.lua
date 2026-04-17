@@ -27,12 +27,12 @@ local function ApplySkyTexturesPNG()
         Citizen.Wait(0)
     end
 
-    local txd = CreateRuntimeTxd("skydome_runtime")
+    local txd = CreateRuntimeTxd("skydome_png")
     CreateRuntimeTextureFromImage(txd, "moon-new", "images/moon-new.png")
     CreateRuntimeTextureFromImage(txd, "starfield", "images/starfield.png")
 
-    AddReplaceTexture("platform:/textures/skydome", "moon-new", "skydome_runtime", "moon-new")
-    AddReplaceTexture("platform:/textures/skydome", "starfield", "skydome_runtime", "starfield")
+    AddReplaceTexture("platform:/textures/skydome", "moon-new", "skydome_png", "moon-new")
+    AddReplaceTexture("platform:/textures/skydome", "starfield", "skydome_png", "starfield")
 end
 
 CreateThread(function()
