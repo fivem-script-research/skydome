@@ -1,19 +1,9 @@
-CreateThread(function()
-    while not NetworkIsSessionStarted() do
-        Wait(1000)
-    end
+local function ApplyOriginalTextures()
+    RemoveReplaceTexture("platform:/textures/skydome", "moon-new")
+    RemoveReplaceTexture("platform:/textures/skydome", "starfield")
+end
 
-    --Wait(5000)
-
-    ApplySkyTextures()
-
-    --while true do
-    --    Wait(30000)
-    --    ApplySkyTextures()
-    --end
-end)
-
-function ApplySkyTextures()
+local function ApplySkyTexturesYTD()
     local id = PlayerId()
 
     while not NetworkIsPlayerActive(id) do
@@ -29,3 +19,33 @@ function ApplySkyTextures()
     AddReplaceTexture("platform:/textures/skydome", "starfield", "skydome_textures", "starfield")
     SetStreamedTextureDictAsNoLongerNeeded("skydome_textures")
 end
+
+local function ApplySkyTexturesPNG()
+    local id = PlayerId()
+
+    while not NetworkIsPlayerActive(id) do
+        Citizen.Wait(0)
+    end
+
+    local txd = CreateRuntimeTxd("skydome_runtime")
+    CreateRuntimeTextureFromImage(txd, "moon-new", "images/moon-new.png")
+    CreateRuntimeTextureFromImage(txd, "starfield", "images/starfield.png")
+
+    AddReplaceTexture("platform:/textures/skydome", "moon-new", "skydome_runtime", "moon-new")
+    AddReplaceTexture("platform:/textures/skydome", "starfield", "skydome_runtime", "starfield")
+end
+
+CreateThread(function()
+    while not NetworkIsSessionStarted() do
+        Wait(1000)
+    end
+
+    ApplyOriginalTextures()
+
+    --ApplySkyTexturesYTD()
+    ApplySkyTexturesPNG()
+end)
+
+
+
+
